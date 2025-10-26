@@ -1,0 +1,47 @@
+infrastructure:
+  DB:
+    USERNAME: appointment_service_user
+    PASSWORD: appointment_service_user
+
+spring:
+  application:
+    name: user-service
+  cloud:
+    config:
+      enabled: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/appointment_user_service_db
+    username: ${infrastructure.DB.USERNAME}
+    password: ${infrastructure.DB.PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  kafka:
+    bootstrap-servers:
+      - host.docker.internal:29092
+      - host.docker.internal:29093
+      - host.docker.internal:29094
+      - host.docker.internal:29095
+      - host.docker.internal:29096
+      - host.docker.internal:29097
+    producer:
+      acks: -1
+      batch-size: 100
+      key-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      compression-type: zstd
+app:
+  jwt:
+    expiration-ms: 7200000 # 2 hours
+    secret: "8adLFE4RHIqYOXhB7ZLjgqdRJWAioTMzlblC8XyKrc8="
+  kafka:
+    notification-topic: appointment-system-notifications
+  client-url: http://localhost:4200
+
+server:
+  port: 9090
