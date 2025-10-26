@@ -17,6 +17,6 @@ public abstract class BaseEntity {
     /**
      * Audit fields of when record when created.
      */
-    @Column(nullable = false, name = "create_at", updatable = false)
+    @Column(nullable = false, name = "created_At")
     private LocalDateTime createdAt = LocalDateTime.now();
 }

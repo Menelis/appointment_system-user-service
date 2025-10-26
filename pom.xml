@@ -34,6 +34,7 @@
 		<mapstruct.version>1.6.3</mapstruct.version>
 		<spring-kafka.version>3.3.10</spring-kafka.version>
 		<lombok.version>1.18.42</lombok.version>
+		<appointment-shared.version>1.0.0</appointment-shared.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -59,6 +60,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<!--Custom Shared Library-->
+		<dependency>
+			<groupId>co.appointment.shared</groupId>
+			<artifactId>appointment-shared</artifactId>
+			<version>${appointment-shared.version}</version>
 		</dependency>
 		<!--Json Web Token dependencies-->
 		<dependency>
@@ -146,6 +153,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.14.1</version>
 				<configuration>
 					<annotationProcessorPaths>
 						<path>

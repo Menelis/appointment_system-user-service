@@ -10,6 +10,9 @@ public class AppConfigProperties {
     private JwtSettings jwt;
     private KafkaSettings kafka;
     private String clientUrl;
+    private String encryptionKey;
+    private MailSettings mail;
+
     @Data
     public static class JwtSettings {
         private String secret;
@@ -18,5 +21,10 @@ public class AppConfigProperties {
     @Data
     public static class KafkaSettings {
         private String notificationTopic;
+    }
+
+    @Data
+    public static class MailSettings {
+        private Integer expirationMs;
     }
 }

@@ -23,16 +23,16 @@ spring:
         format_sql: true
   kafka:
     bootstrap-servers:
-      - host.docker.internal:29092
-      - host.docker.internal:29093
-      - host.docker.internal:29094
-      - host.docker.internal:29095
-      - host.docker.internal:29096
-      - host.docker.internal:29097
+      - localhost:9092
+      - localhost:9093
+      - localhost:9094
+      - localhost:9095
+      - localhost:9096
+      - localhost:9097
     producer:
       acks: -1
       batch-size: 100
-      key-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       compression-type: zstd
 app:
@@ -42,6 +42,9 @@ app:
   kafka:
     notification-topic: appointment-system-notifications
   client-url: http://localhost:4200
+  mail:
+    expiration-ms: 86400000 # 24 hours
+  encryption-key: "AHaeXmeTddI9EsmAOiK2l8diUFH5htXacTEP4wa5zBs="
 
 server:
   port: 9090

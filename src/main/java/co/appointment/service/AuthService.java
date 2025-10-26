@@ -1,10 +1,13 @@
 package co.appointment.service;
 
+import co.appointment.shared.kafka.event.EmailEvent;
 import co.appointment.config.AppConfigProperties;
 import co.appointment.constant.MessageHeaderConstants;
 import co.appointment.constant.RoleConstants;
+import co.appointment.entity.ETokenType;
 import co.appointment.entity.Role;
 import co.appointment.entity.User;
+import co.appointment.entity.VerificationToken;
 import co.appointment.payload.request.SignInRequest;
 import co.appointment.payload.request.SignUpRequest;
 import co.appointment.payload.response.JwtResponse;
@@ -13,6 +16,7 @@ import co.appointment.repository.RoleRepository;
 import co.appointment.repository.UserRepository;
 import co.appointment.security.jwt.JwtUtils;
 import co.appointment.security.service.UserDetailsImpl;
+import co.appointment.shared.service.EncryptionService;
 import co.appointment.util.ObjectUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,8 +28,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,12 +48,13 @@ public class AuthService {
     private final JwtUtils jwtUtils;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
-    private final KafkaProducerService kafkaProducerService;
+    private final EmailEventService emailEventService;
     private final AppConfigProperties appConfigProperties;
+    private final VerificationTokenService verificationTokenService;
+    private final EncryptionService encryptionService;
+
     private static final Map<String, Object> EVENT_HEADERS = Map.of(
             MessageHeaderConstants.EVENT_TYPE, MessageHeaderConstants.VERIFY_EMAIL_EVENT);
-    private static final Map<String, Object> EVENT_KEYS = Map.of();
-
 
     public ApiResponse<?> signUpUser(final SignUpRequest signUpRequest) {
         if(userRepository.existsByEmail(signUpRequest.getEmail())) {
@@ -56,18 +67,31 @@ public class AuthService {
                 signUpRequest.getEmail(),
                 signUpRequest.getContactNo(),
                 passwordEncoder.encode(signUpRequest.getPassword()));
+
         //Set default role
         Role customerRole = roleRepository.findByName(RoleConstants.CUSTOMER_ROLE).orElseThrow(() -> new RuntimeException(String.format("No role with name: %s was found in the db", RoleConstants.CUSTOMER_ROLE)));
         user.addUserRole(customerRole);
         userRepository.save(user);
-        kafkaProducerService.publishEvent(
-                ObjectUtils.createEmailEvent(
+        // Generate verification token
+        VerificationToken verificationToken = getVerificationToken(user);
+        log.info("Encrypt Key is: {}", appConfigProperties.getEncryptionKey());
+        String mailBody = encryptionService.encryptText(ObjectUtils.getUserRegistrationEmailBody(ObjectUtils.getParameterizedClientUrl(appConfigProperties.getClientUrl(), user.getEmail(), verificationToken.getToken())));
+        emailEventService.sendEmailEvent(
+                new EmailEvent(
                         user.getEmail(),
                         "Email Verification",
-                        ObjectUtils.getUserRegistrationEmailBody(appConfigProperties.getClientUrl())),
-                EVENT_KEYS,
-                EVENT_HEADERS);
+                        mailBody),
+                EVENT_HEADERS
+        );
         return new ApiResponse<>(true, "User registered successfully.Please check your email for account verification.");
+    }
+    private VerificationToken getVerificationToken(final User user) {
+        return verificationTokenService.createVerificationToken(
+                new VerificationToken(
+                        UUID.randomUUID().toString(),
+                        user,
+                        ObjectUtils.addMillisecondsToCurrentDate(appConfigProperties.getMail().getExpirationMs()).getTime(),
+                        ETokenType.EMAIL_VERIFICATION_TOKEN.name()));
     }
     public ApiResponse<?> signInUser(final SignInRequest signInRequest) {
         Authentication authentication = authenticationManager.authenticate(
