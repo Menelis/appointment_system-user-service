@@ -21,7 +21,7 @@ import java.util.Map;
 public class KafkaProducerService {
 
     private final KafkaTemplate<Map<String, Object>, EmailEvent> kafkaTemplate;
-    private final AppConfigProperties appConfigProperties;;
+    private final AppConfigProperties appConfigProperties;
 
     public  void publishEvent(final EmailEvent event,
                               final Map<String, Object> eventKey,

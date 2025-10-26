@@ -26,12 +26,12 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint, AccessDenied
 
     // Handle Authentication failures (401)
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         buildErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized", authException.getMessage(), request.getServletPath());
     }
     // Handle Authorization failures (403)
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
         buildErrorResponse(response, HttpServletResponse.SC_FORBIDDEN, "Forbidden", "You do not have permission to access this resource", request.getServletPath());
     }
     private void buildErrorResponse(
