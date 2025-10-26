@@ -17,7 +17,7 @@ public class TestController {
     private final EncryptionService encryptionService;
 
     @GetMapping("/generateSecretKey")
-    public ResponseEntity<?> generateSecretKey() throws NoSuchAlgorithmException {
+    public ResponseEntity<?> generateSecretKey() {
         return ResponseEntity.ok(new ApiResponse<>(encryptionService.generateEncryptionKey()));
     }
 }
