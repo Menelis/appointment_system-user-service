@@ -42,7 +42,7 @@ app:
   kafka:
     notification-topic: appointment-system-notifications
   client-url: http://localhost:4200
-  mail:
+  verification-token:
     expiration-ms: 86400000 # 24 hours
   encryption-key: "AHaeXmeTddI9EsmAOiK2l8diUFH5htXacTEP4wa5zBs="
 
