@@ -11,7 +11,7 @@ import co.appointment.entity.VerificationToken;
 import co.appointment.payload.request.SignInRequest;
 import co.appointment.payload.request.SignUpRequest;
 import co.appointment.payload.response.JwtResponse;
-import co.appointment.record.ApiResponse;
+import co.appointment.shared.payload.response.ApiResponse;
 import co.appointment.repository.RoleRepository;
 import co.appointment.repository.UserRepository;
 import co.appointment.security.jwt.JwtUtils;

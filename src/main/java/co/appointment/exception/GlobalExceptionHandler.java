@@ -1,7 +1,7 @@
 package co.appointment.exception;
 
 import co.appointment.constant.AppConstants;
-import co.appointment.record.ApiResponse;
+import co.appointment.shared.payload.response.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;

@@ -2,7 +2,7 @@ package co.appointment.controller;
 
 import co.appointment.payload.request.SignInRequest;
 import co.appointment.payload.request.SignUpRequest;
-import co.appointment.record.ApiResponse;
+import co.appointment.shared.payload.response.ApiResponse;
 import co.appointment.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
