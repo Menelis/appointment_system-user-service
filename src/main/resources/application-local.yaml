@@ -35,6 +35,14 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       compression-type: zstd
+
+springdoc:
+  api-docs:
+    path: /auth/v3/api-docs
+  swagger-ui:
+    path: /auth/swagger-ui.html
+    operations-sorter: method
+    doc-expansion: none
 app:
   jwt:
     expiration-ms: 7200000 # 2 hours
@@ -45,6 +53,24 @@ app:
   verification-token:
     expiration-ms: 86400000 # 24 hours
   encryption-key: "AHaeXmeTddI9EsmAOiK2l8diUFH5htXacTEP4wa5zBs="
+  open-api:
+    info:
+      title: Appointment Auth Service
+      description: Appointment Authentication Service
+      version: 1.0.0
+  cors:
+    allowed-origins:
+      - http://localhost:9000
+    allowed-methods:
+      - POST
+      - GET
+      - PUT
+      - OPTIONS
+      - DELETE
+      - PATCH
+    allowed-headers:
+      - "*"
+    max-age: 3600
 
 server:
-  port: 9000
+  port: 9001
