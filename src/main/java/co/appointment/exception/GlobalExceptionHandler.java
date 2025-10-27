@@ -1,6 +1,6 @@
 package co.appointment.exception;
 
-import co.appointment.constant.AppConstants;
+import co.appointment.shared.constant.SharedConstants;
 import co.appointment.shared.payload.response.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleException(final Exception exception) {
         log.error(exception.getMessage(), exception);
-        return ResponseEntity.internalServerError().body(new ApiResponse<>(false, AppConstants.INTERNAL_SERVER_ERROR));
+        return ResponseEntity.internalServerError().body(new ApiResponse<>(false, SharedConstants.INTERNAL_SERVER_ERROR));
     }
 
     @ExceptionHandler(BadCredentialsException.class)
