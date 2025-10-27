@@ -47,4 +47,4 @@ app:
   encryption-key: "AHaeXmeTddI9EsmAOiK2l8diUFH5htXacTEP4wa5zBs="
 
 server:
-  port: 9090
+  port: 9000
