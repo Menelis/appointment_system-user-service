@@ -1,6 +1,6 @@
 package co.appointment.security.jwt;
 
-import co.appointment.constant.TokenConstants;
+import co.appointment.shared.constant.TokenConstants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
