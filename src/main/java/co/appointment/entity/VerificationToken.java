@@ -32,13 +32,9 @@ public class VerificationToken extends BaseEntity {
 
     public VerificationToken() {}
     public VerificationToken(
-            final String token,
             final User user,
-            final Long expiryDate,
             final String tokenType) {
-        this.token = token;
         this.user = user;
-        this.expiryDate = expiryDate;
         this.tokenType = tokenType;
     }
 }
