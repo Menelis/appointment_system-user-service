@@ -1,8 +1,8 @@
 package co.appointment.security.jwt;
 
 import co.appointment.config.AppConfigProperties;
-import co.appointment.constant.TokenConstants;
 import co.appointment.security.service.UserDetailsImpl;
+import co.appointment.shared.constant.TokenConstants;
 import co.appointment.util.ObjectUtils;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.Claims;
