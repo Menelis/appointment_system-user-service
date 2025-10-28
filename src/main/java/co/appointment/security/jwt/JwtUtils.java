@@ -3,27 +3,23 @@ package co.appointment.security.jwt;
 import co.appointment.config.AppConfigProperties;
 import co.appointment.security.service.UserDetailsImpl;
 import co.appointment.shared.constant.TokenConstants;
+import co.appointment.shared.model.JwtSettings;
+import co.appointment.shared.util.SharedJwtUtils;
 import co.appointment.util.ObjectUtils;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
-import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Map;
+
 
 
 @Component
 @Slf4j
 public class JwtUtils {
-    private final AppConfigProperties.JwtSettings jwtSettings;
+    private final JwtSettings jwtSettings;
 
     public JwtUtils(final AppConfigProperties appConfigProperties) {
         this.jwtSettings = appConfigProperties.getJwt();
@@ -41,42 +37,14 @@ public class JwtUtils {
                 .subject(userPrincipal.getId().toString())
                 .issuedAt(now)
                 .expiration(ObjectUtils.addMillisecondsToCurrentDate(jwtSettings.getExpirationMs()))
-                .signWith(getSecretKey())
+                .signWith(SharedJwtUtils.generateSecretKey(jwtSettings.getSecret()))
                 .claims(claims)
                 .compact();
     }
-    private SecretKey getSecretKey() {
-        return Keys.hmacShaKeyFor(jwtSettings.getSecret().getBytes(StandardCharsets.UTF_8));
-    }
-    public Claims extractAllClaimsFromToken(final String authToken) {
-        return Jwts.parser()
-                .verifyWith(getSecretKey())
-                .build()
-                .parseSignedClaims(authToken)
-                .getPayload();
-    }
     public String extractClaimByKey(final String authToken, final String claimName) {
-        Claims claims = extractAllClaimsFromToken(authToken);
-        Object claimValue = claims.get(claimName);
-        if(claimValue == null) {
-            return null;
-        }
-        return claimValue.toString();
+        return SharedJwtUtils.extractClaimByKey(authToken, claimName, jwtSettings.getSecret());
     }
     public boolean validateJwtToken(final String authToken) {
-        try {
-            Jwts.parser().verifyWith(getSecretKey()).build().parseSignedClaims(authToken);
-            return true;
-        } catch (MalformedJwtException exception) {
-            log.error("Invalid JWT token: {}", exception.getMessage());
-        } catch (ExpiredJwtException exception) {
-            log.error("JWT token is expired: {}", exception.getMessage());
-        } catch (UnsupportedJwtException exception) {
-            log.error("JWT token is unsupported: {}", exception.getMessage());
-        } catch (IllegalArgumentException exception) {
-            log.error("JWT claims string is empty: {}", exception.getMessage());
-        }
-        return false;
-
+      return SharedJwtUtils.validateToken(authToken, jwtSettings.getSecret());
     }
 }

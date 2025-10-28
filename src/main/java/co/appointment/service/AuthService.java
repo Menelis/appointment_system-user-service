@@ -1,7 +1,7 @@
 package co.appointment.service;
 
 import co.appointment.payload.request.PasswordResetRequest;
-import co.appointment.shared.constant.MessageHeaderConstants;
+import co.appointment.shared.constant.EventTypeConstants;
 import co.appointment.shared.kafka.event.EmailEvent;
 import co.appointment.config.AppConfigProperties;
 import co.appointment.constant.RoleConstants;
@@ -49,7 +49,7 @@ public class AuthService {
     private final EncryptionService encryptionService;
 
     private static final Map<String, Object> EMAIL_VERIFICATION_EVENT_HEADERS = Map.of(
-            MessageHeaderConstants.EVENT_TYPE, MessageHeaderConstants.VERIFY_EMAIL_EVENT);
+            EventTypeConstants.EVENT_TYPE, EventTypeConstants.VERIFY_EMAIL_EVENT);
 
     public ApiResponse<?> signUpUser(final SignUpRequest signUpRequest) {
         if(userRepository.existsByEmail(signUpRequest.getEmail())) {

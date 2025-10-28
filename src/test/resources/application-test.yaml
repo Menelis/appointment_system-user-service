@@ -17,6 +17,30 @@ spring:
       hibernate:
         format_sql: true
 
+app:
+  jwt:
+    expiration-ms: 7200000 # 2 hours
+    secret: ""
+  kafka:
+    notification-topic: appointment-system-notifications-test
+  client-url: http://localhost:4200
+  verification-token:
+    expiration-ms: 86400000 # 24 hours
+  encryption-key: ""
+  open-api:
+    info:
+      title: Appointment Auth Service - TEST
+      description: Appointment Authentication Service
+      version: 1.0.0
+  cors:
+    allowed-origins:
+      - "*"
+    allowed-methods:
+      - "*"
+    allowed-headers:
+      - "*"
+    max-age: 3600
+
 logging:
   level:
     org.hibernate.orm.jdbc.bind: trace
