@@ -17,6 +17,7 @@ public class AppConfigProperties {
     private VerificationTokenSettings verificationToken;
     private CorsSettings cors;
     private OpenApiSettings openApi;
+    private String[] whiteList;
 
     @Data
     public static class KafkaSettings {
