@@ -39,6 +39,9 @@ public class SecurityConfig {
         return http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorizeRequests ->
+                        authorizeRequests.requestMatchers(appConfigProperties.getWhiteList()).permitAll()
+                                .anyRequest().authenticated())
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(new AuthEntryPointJwt(objectMapper)))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationManager(authenticationManager())
