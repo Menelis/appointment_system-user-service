@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.hc.core5.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +23,7 @@ import java.io.IOException;
 public class AuthTokenFilter extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
     private final UserDetailsService userDetailsService;
+    private static final String BEARER = "Bearer ";
 
 
     @Override
@@ -48,9 +50,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
     private String parseJwtToken(final HttpServletRequest request) {
-        String headerAuth = request.getHeader(TokenConstants.AUTHORIZATION_HEADER);
-        if(StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-            return headerAuth.substring(7);
+        String headerAuth = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if(StringUtils.hasText(headerAuth) && headerAuth.startsWith(BEARER)) {
+            return headerAuth.substring(BEARER.length());
         }
         return null;
     }
