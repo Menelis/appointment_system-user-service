@@ -1,6 +1,6 @@
 package co.appointment;
 
-import co.appointment.constant.RoleConstants;
+import co.appointment.shared.constant.RoleConstants;
 import co.appointment.entity.Role;
 import co.appointment.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;

@@ -4,7 +4,7 @@ import co.appointment.payload.request.PasswordResetRequest;
 import co.appointment.shared.constant.EventTypeConstants;
 import co.appointment.shared.kafka.event.EmailEvent;
 import co.appointment.config.AppConfigProperties;
-import co.appointment.constant.RoleConstants;
+import co.appointment.shared.constant.RoleConstants;
 import co.appointment.entity.ETokenType;
 import co.appointment.entity.Role;
 import co.appointment.entity.User;
