@@ -16,7 +16,7 @@ import co.appointment.shared.payload.response.ApiResponse;
 import co.appointment.repository.RoleRepository;
 import co.appointment.repository.UserRepository;
 import co.appointment.security.jwt.JwtUtils;
-import co.appointment.security.service.UserDetailsImpl;
+import co.appointment.shared.security.UserDetailsImpl;
 import co.appointment.shared.service.EncryptionService;
 import co.appointment.util.ObjectUtils;
 import lombok.RequiredArgsConstructor;

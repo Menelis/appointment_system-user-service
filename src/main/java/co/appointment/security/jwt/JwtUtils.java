@@ -1,7 +1,7 @@
 package co.appointment.security.jwt;
 
 import co.appointment.config.AppConfigProperties;
-import co.appointment.security.service.UserDetailsImpl;
+import co.appointment.shared.security.UserDetailsImpl;
 import co.appointment.shared.constant.TokenConstants;
 import co.appointment.shared.model.JwtSettings;
 import co.appointment.shared.util.SharedJwtUtils;
