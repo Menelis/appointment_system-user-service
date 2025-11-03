@@ -17,10 +17,6 @@ public class AccountControllerV1 {
 
     private final AuthService authService;
 
-    @GetMapping("/test")
-    public ResponseEntity<ApiResponse<String>> test() {
-        return ResponseEntity.ok(new ApiResponse<>(true,"OK!!! it works"));
-    }
     @PostMapping("/sign-up")
     public ResponseEntity<?> signUp(@RequestBody @Valid final SignUpRequest signUpRequest) {
         ApiResponse<?> apiResponse = authService.signUpUser(signUpRequest);
