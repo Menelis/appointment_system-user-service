@@ -74,7 +74,7 @@ public class AuthService {
     }
     private void  sendEmailEvent(final User user, final VerificationToken verificationToken) {
         String mailBody = encryptionService.encryptText(ObjectUtils.getUserRegistrationEmailBody(ObjectUtils.getParameterizedClientUrl(appConfigProperties.getClientUrl(), user.getEmail(), verificationToken.getToken())));
-        emailEventService.sendEmailEvent(new EmailEvent(user.getEmail(),"Email Verification", mailBody), EMAIL_VERIFICATION_EVENT_HEADERS);
+        emailEventService.sendEmailEvent(new EmailEvent(user.getEmail(),"Email Verification", mailBody, true), EMAIL_VERIFICATION_EVENT_HEADERS);
     }
 
     public ApiResponse<?> signInUser(final SignInRequest signInRequest) {

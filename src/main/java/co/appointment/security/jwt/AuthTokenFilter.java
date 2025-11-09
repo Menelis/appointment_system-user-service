@@ -1,5 +1,6 @@
 package co.appointment.security.jwt;
 
+import co.appointment.security.service.UserDetailsServiceImpl;
 import co.appointment.shared.constant.TokenConstants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,7 +23,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthTokenFilter extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
-    private final UserDetailsService userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
     private static final String BEARER = "Bearer ";
 
 

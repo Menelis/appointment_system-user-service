@@ -46,3 +46,7 @@ app:
 logging:
   level:
     org.hibernate.orm.jdbc.bind: trace
+
+grpc:
+  server:
+    port: 9090

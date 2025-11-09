@@ -45,6 +45,6 @@ public class JwtUtils {
         return SharedJwtUtils.extractClaimByKey(authToken, claimName, jwtSettings.getSecret());
     }
     public boolean validateJwtToken(final String authToken) {
-      return SharedJwtUtils.validateToken(authToken, jwtSettings.getSecret());
+      return SharedJwtUtils.isValidToken(authToken, jwtSettings.getSecret());
     }
 }
